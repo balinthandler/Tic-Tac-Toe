@@ -4,6 +4,7 @@ const gameBoard = (() =>{
     let player1 = {};
     let player2 = {};
     let lastMark = '';
+    let gameOver = true;
     const winningCases = [
         ['A1', 'A2', 'A3'],
         ['B1', 'B2', 'B3'],
@@ -29,8 +30,9 @@ const gameBoard = (() =>{
             newbox.id = element;
             boardContainer.appendChild(newbox);
         });
-        gameMechanic();
-        
+        if (!gameOver){
+            gameMechanic()
+        }
     }
     const gameMechanic = () => {
             let box = document.querySelectorAll('.box');
@@ -48,7 +50,6 @@ const gameBoard = (() =>{
                 evaluate(player2);
             })});
     }
-
     const evaluate = (obj) => {
         let objName = obj.name;
         let array = obj.marks ;
@@ -67,7 +68,6 @@ const gameBoard = (() =>{
                             let vsInfo = document.querySelector('#vsInfo');
                             vsInfo.textContent = 'Tie!';
                             gameOver = true;
-
                         }
                     }
                 })
@@ -115,7 +115,6 @@ const gameBoard = (() =>{
             });
         }
     }
-    
     let navBar = document.querySelector('#navBar');
     navBar.onclick = function(event){
         let target = event.target;
@@ -123,10 +122,6 @@ const gameBoard = (() =>{
             resetGame();
         }
     }
-
-
-
-    
     const resetGame = () => {
         createBoard();
         player1.marks = [];
@@ -135,12 +130,11 @@ const gameBoard = (() =>{
         lastMark = '';
         const vsInfo = document.querySelector('#vsInfo');
         vsInfo.textContent = `${player1.name} vs. ${player2.name}`;
-
     };
     return{
         newGameInput,
         createBoard,
-
+        gameOver
         
     }
 })();
