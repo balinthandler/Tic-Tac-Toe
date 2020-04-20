@@ -29,12 +29,12 @@ const gameBoard = (() =>{
             newbox.className = 'box';
             newbox.id = element;
             boardContainer.appendChild(newbox);
+            gameOver = false;
         });
-        if (!gameOver){
-            gameMechanic()
-        }
+        
     }
     const gameMechanic = () => {
+            if (!gameOver){
             let box = document.querySelectorAll('.box');
             box.forEach(e => {e.addEventListener('click', function() {
                 if ((lastMark == '' || lastMark == player2.marker) && this.innerHTML == '') {
@@ -48,7 +48,10 @@ const gameBoard = (() =>{
                 }
                 evaluate(player1);
                 evaluate(player2);
+                console.log(gameOver);
             })});
+            } else { console.log('alter')}
+            
     }
     const evaluate = (obj) => {
         let objName = obj.name;
@@ -99,22 +102,25 @@ const gameBoard = (() =>{
             playerContainer.appendChild(submit);
             navBar.appendChild(playerContainer);
             submit.addEventListener('click', e => {
-                gameOver = false;
-                player1 = playerInit(inputP1.value,'X');
-                player2 = playerInit(inputP2.value,'O');
-                playerContainer.remove();
-                gameBoard.createBoard();
-                const vsInfo = document.createElement('h1');
-                vsInfo.id = 'vsInfo';
-                vsInfo.textContent = `${player1.name} vs. ${player2.name}`;
-                const reset = document.createElement('button');
-                reset.textContent = 'Reset';
-                reset.id = "reset";
-                navBar.appendChild(vsInfo);
-                navBar.appendChild(reset);
-            });
-        }
+            player1 = playerInit(inputP1.value,'X');
+            player2 = playerInit(inputP2.value,'O');
+            playerContainer.remove();
+            const vsInfo = document.createElement('h1');
+            vsInfo.id = 'vsInfo';
+            vsInfo.textContent = `${player1.name} vs. ${player2.name}`;
+            const reset = document.createElement('button');
+            reset.textContent = 'Reset';
+            reset.id = "reset";
+            navBar.appendChild(vsInfo);
+            navBar.appendChild(reset);
+
+            createBoard();
+            gameMechanic();
+            
+        })}
     }
+  
+
     let navBar = document.querySelector('#navBar');
     navBar.onclick = function(event){
         let target = event.target;
@@ -123,21 +129,19 @@ const gameBoard = (() =>{
         }
     }
     const resetGame = () => {
-        createBoard();
         player1.marks = [];
         player2.marks = [];
-        gameOver = false;
         lastMark = '';
         const vsInfo = document.querySelector('#vsInfo');
         vsInfo.textContent = `${player1.name} vs. ${player2.name}`;
+        createBoard();
+        gameMechanic();
     };
     return{
         newGameInput,
         createBoard,
         gameOver
-        
     }
 })();
-
 const newGame = document.querySelector('#newGame');
 newGame.addEventListener('click', e => gameBoard.newGameInput());
