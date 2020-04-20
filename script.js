@@ -80,7 +80,7 @@ const gameBoard = (() =>{
                     navBar.appendChild(reset);
 
                     createBoard();
-                    gameMechanic();
+                    gameMechanics();
                 }
             })
         }
@@ -103,7 +103,7 @@ const gameBoard = (() =>{
         });
         
     }
-    const gameMechanic = () => {
+    const gameMechanics = () => {
         resBtn();
         let box = document.querySelectorAll('.box');
         box.forEach(e => {e.addEventListener('click', function() {
@@ -178,12 +178,11 @@ const gameBoard = (() =>{
         const vsInfo = document.querySelector('#vsInfo');
         vsInfo.textContent = `${player1.name} vs. ${player2.name}`;
         createBoard();
-        gameMechanic();
+        gameMechanics();
         gameover = false;
     };
     return{
         newGameInput,
-        createBoard,
     }
 })();
 const newGame = document.querySelector('#newGame');
